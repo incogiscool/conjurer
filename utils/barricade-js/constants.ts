@@ -9,4 +9,4 @@ export const barricadeFeeWallet: PublicKey = new PublicKey(
 );
 export const prefix: string = "/barricade";
 
-export const barricadeVersion: string = "1.0";
+export const barricadeVersion: string = "Alpha Release (v1.0)";

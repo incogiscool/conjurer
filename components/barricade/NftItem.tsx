@@ -9,6 +9,7 @@ type NftItem = {
 };
 
 const NftItem = ({ mint, name, image }: NftItem) => {
+  //@ts-ignore
   const { selectedNftMint, setSelectedNftMint } =
     useContext(SelectedNftContext);
 

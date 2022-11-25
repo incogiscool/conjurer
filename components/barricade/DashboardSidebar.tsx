@@ -8,9 +8,11 @@ import {
   prefix,
 } from "../../utils/barricade-js/constants";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Barricade } from "../../utils/barricade-js";
+import { DashboardTabChangeContext } from "../../contexts/DashboardTabChangeContext";
+import { ActiveTabTypes } from "../../utils/barricade-js/types";
 
 const DashboardSidebar = () => {
   const [walletBalanceSolRounded, setWalletBalanceSolRounded] =
@@ -19,6 +21,13 @@ const DashboardSidebar = () => {
   const wallet = useWallet();
 
   const barricade = new Barricade(wallet, wallet.publicKey, connection);
+
+  //@ts-ignore
+  const { setActiveTab } = useContext(DashboardTabChangeContext);
+
+  function changeActiveTabs(tab: ActiveTabTypes) {
+    setActiveTab(tab);
+  }
 
   async function getWalletBalanceSol() {
     try {
@@ -59,7 +68,10 @@ const DashboardSidebar = () => {
         <WalletMultiButtonDynamic />
         <hr className="mt-5" />
       </div>
-      <div className="flex items-center m-8 ">
+      <div
+        className="flex items-center m-8 cursor-pointer"
+        onClick={() => changeActiveTabs("profile")}
+      >
         <svg
           width="24"
           height="24"
@@ -72,7 +84,10 @@ const DashboardSidebar = () => {
         </svg>
         <p className="text-white ml-6 font-medium text-lg">Profile</p>
       </div>
-      <div className="flex items-center m-8">
+      <div
+        className="flex items-center m-8 cursor-pointer"
+        onClick={() => changeActiveTabs("unlocked")}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -84,7 +99,10 @@ const DashboardSidebar = () => {
         </svg>
         <p className="text-white ml-6 font-medium text-lg">Unlocked</p>
       </div>
-      <div className="flex items-center m-8">
+      <div
+        className="flex items-center m-8 cursor-pointer"
+        onClick={() => changeActiveTabs("locked")}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

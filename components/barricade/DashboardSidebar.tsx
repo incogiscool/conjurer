@@ -23,10 +23,10 @@ const DashboardSidebar = () => {
   const barricade = new Barricade(wallet, wallet.publicKey, connection);
 
   //@ts-ignore
-  const { setActiveTab } = useContext(DashboardTabChangeContext);
+  const { setActiveTabState } = useContext(DashboardTabChangeContext);
 
   function changeActiveTabs(tab: ActiveTabTypes) {
-    setActiveTab(tab);
+    setActiveTabState(tab);
   }
 
   async function getWalletBalanceSol() {

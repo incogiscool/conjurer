@@ -29,6 +29,7 @@ const Dashboard = () => {
   );
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState("");
 
   const wallet = useWallet();
   const connection = new Connection(connectionCluster);
@@ -75,6 +76,13 @@ const Dashboard = () => {
   }, [error]);
 
   useEffect(() => {
+    if (loading && loading !== "") {
+      toast.loading(loading, toastSettings);
+      setLoading("");
+    }
+  }, [loading]);
+
+  useEffect(() => {
     if (wallet.connected) {
       fetchAllNfts();
     } else {
@@ -90,6 +98,8 @@ const Dashboard = () => {
       if (!selectedNftMint || selectedNftMint === undefined) {
         throw new Error("Please select an NFT.");
       }
+
+      setLoading("Locking Nft... Please accept both transaction pop-ups.");
 
       const res = await barricade.lockNFT(selectedNftMint);
       console.log(res);

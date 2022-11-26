@@ -136,7 +136,7 @@ const DashboardSidebar = () => {
           {walletBalanceSolRounded}
         </p>
       </div>
-      <p className="flex justify-center text-buttonBackgroundAlt">
+      <p className="flex justify-center text-center text-buttonBackgroundAlt">
         Version: {barricadeVersion}
       </p>
       {/* <button onClick={getWalletBalanceSol}>get balance</button> */}

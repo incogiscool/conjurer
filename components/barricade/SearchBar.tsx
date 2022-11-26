@@ -36,7 +36,7 @@ const SearchBar = ({ nfts }: SearchBarType) => {
   return (
     <div className="">
       <form
-        className="flex shadow-xl border border-slate-300 bg-[#3e678c]/[.5] pl-4 pr-4 p-2 rounded-2xl justify-between sm:w-[450px]"
+        className="flex shadow-xl border border-slate-300 bg-[#3e678c]/[.5] pl-4 pr-4 p-2 mb-4 rounded-2xl justify-between sm:w-[450px]"
         onSubmit={formSubmitHandler}
       >
         <input

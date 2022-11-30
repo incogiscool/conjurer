@@ -118,12 +118,16 @@ export class Barricade {
 
         const { isFrozen } = await getAccount(this.connection, tokenAcc);
 
-        return {
+        const data = {
           mint,
           name,
           image,
           isFrozen,
         };
+
+        console.log(data);
+
+        return data;
       })
     );
 

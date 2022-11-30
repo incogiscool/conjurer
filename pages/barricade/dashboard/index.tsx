@@ -52,6 +52,8 @@ const Dashboard = () => {
     try {
       if (!wallet.connected) return;
 
+      setInfo("Loading NFTs");
+
       const res = await barricade.fetchAllNFTs();
 
       const unlockedNfts = res.filter((nft) => nft.isFrozen === false);

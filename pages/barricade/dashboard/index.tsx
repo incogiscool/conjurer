@@ -231,7 +231,21 @@ const Dashboard = () => {
           <div className="flex">
             <DashboardSidebar />
             {wallet.connected ? (
-              <UnlockedTab />
+              <div>
+                {activeTabState === "locked" ? (
+                  <LockedTab />
+                ) : (
+                  <div>
+                    {activeTabState === "profile" ? (
+                      <ProfileTab />
+                    ) : (
+                      <div>
+                        {activeTabState === "unlocked" ? <UnlockedTab /> : ""}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             ) : (
               <h1 className="text-2xl m-6 text-white font-medium">
                 Please connect wallet

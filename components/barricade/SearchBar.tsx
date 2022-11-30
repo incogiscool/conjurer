@@ -49,7 +49,7 @@ const SearchBar = ({ nfts }: SearchBarType) => {
         onSubmit={formSubmitHandler}
       >
         <input
-          placeholder="Search Nfts..."
+          placeholder="Search NFTs..."
           className="text-white bg-transparent aria-disabled w-full text-lg placeholder:text-white border-none outline-none"
           onChange={(e) => setInputQuery(e.target.value)}
         />

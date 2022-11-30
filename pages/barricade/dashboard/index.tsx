@@ -99,7 +99,7 @@ const Dashboard = () => {
     } else if (activeTabState === "locked") {
       setRenderNfts(lockedNfts);
     } else {
-      setError("Render nfts error...");
+      setError("Render NFTs error...");
     }
   }, [activeTabState, unlockedNfts, lockedNfts]);
 
@@ -111,7 +111,7 @@ const Dashboard = () => {
 
       if (activeTabState !== "unlocked") return;
 
-      setInfo("Locking Nft... Please accept both transaction pop-ups.");
+      setInfo("Locking NFT ( Accept both transactions).");
 
       const res = await barricade.lockNFT(selectedNftMint);
       console.log(res);
@@ -131,7 +131,7 @@ const Dashboard = () => {
 
       if (activeTabState !== "locked") return;
 
-      setInfo("Unlocking Nft... Please accept the transaction.");
+      setInfo("Unlocking NFT (Accept Transaction).");
 
       const res = await barricade.unlockNFT(lockedNfts[0].mint);
       console.log(res);
@@ -153,7 +153,7 @@ const Dashboard = () => {
         <div className="flex">
           <SearchBar nfts={unlockedNfts} />
         </div>
-        <h1 className="md:text-4xl text-white font-bold">Unlocked Nfts</h1>
+        <h1 className="md:text-4xl text-white font-bold">Unlocked NFTs</h1>
         {/* <p>active tab: {activeTabState}</p> */}
         {/* {error && error !== "" ? (
         <p className="text-xl font-medium text-red-400">
@@ -177,9 +177,7 @@ const Dashboard = () => {
               );
             })
           ) : (
-            <h1 className="text-white font-medium mt-3">
-              No unlocked nfts found in wallet
-            </h1>
+            <h1 className="text-white font-medium mt-3">No NFTs Found</h1>
           )}
         </div>
         {/* <button onClick={unlockNft}>unlock(dev)</button> */}
@@ -209,7 +207,7 @@ const Dashboard = () => {
         <div className="flex">
           <SearchBar nfts={lockedNfts} />
         </div>
-        <h1 className="md:text-4xl text-white font-bold">Locked Nfts</h1>
+        <h1 className="md:text-4xl text-white font-bold">Locked NFTs</h1>
         <div className="flex flex-wrap">
           {renderNfts.length !== 0 ? (
             renderNfts.map((nft) => {
@@ -223,9 +221,7 @@ const Dashboard = () => {
               );
             })
           ) : (
-            <h1 className="text-white font-medium mt-3">
-              No locked nfts found in wallet
-            </h1>
+            <h1 className="text-white font-medium mt-3">No NFTs Found</h1>
           )}
         </div>
         {selectedNftMint !== undefined ? (

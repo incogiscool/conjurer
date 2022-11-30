@@ -16,6 +16,7 @@ import { DashboardTabChangeContext } from "../../../contexts/DashboardTabChangeC
 import { ToastContainer, toast, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RenderNftsContext } from "../../../contexts/RenderNftsContext";
+import BackgroundSphere from "../../../components/barricade/BackgroundSphere";
 
 const Dashboard = () => {
   const [unlockedNfts, setUnlockedNfts] = useState<NFTDataType[]>([]);
@@ -58,11 +59,6 @@ const Dashboard = () => {
 
       const unlockedNfts = res.filter((nft) => nft.isFrozen === false);
       const lockedNfts = res.filter((nft) => nft.isFrozen === true);
-
-      //add condition where if no nfts in wallet put msg on screen
-      //add toast for errors instead of useState and for successes
-      //add toast fr loading and success
-      //fix margins on dashboard
 
       setUnlockedNfts(unlockedNfts);
       setLockedNfts(lockedNfts);
@@ -150,6 +146,10 @@ const Dashboard = () => {
   function UnlockedTab() {
     return (
       <div className="m-16">
+        <BackgroundSphere className="bottom-4 right-48" />
+        <BackgroundSphere className="top-36 left-58" />
+        <BackgroundSphere className="top-4 right-16 scale-50" />
+
         <div className="flex">
           <SearchBar nfts={unlockedNfts} />
         </div>

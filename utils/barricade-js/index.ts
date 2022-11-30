@@ -108,16 +108,16 @@ export class Barricade {
         //@ts-ignore
         const tokenAcc = await getAssociatedTokenAddress(mint, this.publicKey);
         const uri = nft.uri;
+        const uriFetch = await (await fetch(uri)).json();
 
         console.log(
           `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
         );
 
-        const uriFetch = await (await fetch(uri)).json();
-
         const name = uriFetch.name;
         const image = uriFetch.image;
 
+        console.log("Name: ", name);
         const { isFrozen } = await getAccount(this.connection, tokenAcc);
 
         console.log("Is locked: ", isFrozen);

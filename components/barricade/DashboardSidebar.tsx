@@ -13,6 +13,7 @@ import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Barricade } from "../../utils/barricade-js";
 import { DashboardTabChangeContext } from "../../contexts/DashboardTabChangeContext";
 import { ActiveTabTypes } from "../../utils/barricade-js/types";
+import { SelectedNftContext } from "../../contexts/SelectedNftContext";
 
 const DashboardSidebar = () => {
   const [walletBalanceSolRounded, setWalletBalanceSolRounded] =
@@ -24,8 +25,11 @@ const DashboardSidebar = () => {
 
   //@ts-ignore
   const { setActiveTabState } = useContext(DashboardTabChangeContext);
+  //@ts-ignore
+  const { setSelectedNftMint } = useContext(SelectedNftContext);
 
   function changeActiveTabs(tab: ActiveTabTypes) {
+    setSelectedNftMint(undefined);
     setActiveTabState(tab);
   }
 
@@ -114,30 +118,32 @@ const DashboardSidebar = () => {
         </svg>
         <p className="text-white ml-6 font-medium text-lg">Locked</p>
       </div>
-      <div className="flex items-center m-8 shadow-lg border border-nftItemBackground bg-buttonBackgroundAlt p-2 rounded-xl">
-        <div className="scale-75">
-          <svg
-            width="36"
-            height="28"
-            viewBox="0 0 36 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10 18L2 10H26L34 18M26 10L34 2H10L2 10M2 26H26L34 18H10L2 26Z"
-              stroke="white"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+      <div className="m-8 shadow-lg border border-nftItemBackground bg-buttonBackgroundAlt p-2 rounded-xl">
+        <div className="flex items-center justify-center">
+          <div className="scale-75">
+            <svg
+              width="36"
+              height="28"
+              viewBox="0 0 36 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 18L2 10H26L34 18M26 10L34 2H10L2 10M2 26H26L34 18H10L2 26Z"
+                stroke="white"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <p className="ml-4 text-lg text-white font-medium">
+            {walletBalanceSolRounded}
+          </p>
         </div>
-        <p className="ml-4 text-lg text-white font-medium">
-          {walletBalanceSolRounded}
-        </p>
       </div>
       <p className="flex justify-center text-center text-buttonBackgroundAlt">
-        Version: {barricadeVersion}
+        {barricadeVersion}
       </p>
       {/* <button onClick={getWalletBalanceSol}>get balance</button> */}
     </div>

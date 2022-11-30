@@ -189,8 +189,18 @@ const Dashboard = () => {
   function LockedTab() {
     return (
       <div>
+        <h1>Locked Nfts</h1>
         <div>
-          <h1>Locked Tab</h1>
+          {lockedNfts.map((nft) => {
+            return (
+              <NftItem
+                key={nft.mint.toBase58()}
+                mint={nft.mint}
+                image={nft.image}
+                name={nft.name}
+              />
+            );
+          })}
         </div>
       </div>
     );

@@ -38,6 +38,7 @@ const SearchBar = ({ nfts }: SearchBarType) => {
   useEffect(() => {
     if (inputQuery === "") {
       // console.log("query cleared");
+      // setRenderNfts(nfts);
     }
   }, [inputQuery]);
 

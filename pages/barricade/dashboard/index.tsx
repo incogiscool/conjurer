@@ -126,22 +126,29 @@ const Dashboard = () => {
   }
 
   async function unlockNft() {
-    if (!selectedNftMint || selectedNftMint === undefined) {
-      throw new Error("Please select an NFT.");
+    try {
+      if (!selectedNftMint || selectedNftMint === undefined) {
+        throw new Error("Please select an NFT.");
+      }
+
+      if (activeTabState !== "locked") return;
+
+      setInfo("Unlocking Nft... Please accept the transaction.");
+
+      const res = await barricade.unlockNFT(lockedNfts[0].mint);
+      console.log(res);
+
+      location.reload();
+    } catch (err: any) {
+      console.log(err);
+      setError(err.message);
     }
-
-    if (activeTabState !== "locked") return;
-
-    const res = await barricade.unlockNFT(lockedNfts[0].mint);
-    console.log(res);
-
-    location.reload();
   }
 
   function UnlockedTab() {
     return (
       <div className="m-16">
-        <div className="flex justify-center">
+        <div className="flex">
           <SearchBar nfts={unlockedNfts} />
         </div>
         <h1 className="md:text-4xl text-white font-bold">Unlocked Nfts</h1>
@@ -197,7 +204,7 @@ const Dashboard = () => {
   function LockedTab() {
     return (
       <div className="m-16">
-        <div className="flex justify-center">
+        <div className="flex">
           <SearchBar nfts={lockedNfts} />
         </div>
         <h1 className="md:text-4xl text-white font-bold">Locked Nfts</h1>

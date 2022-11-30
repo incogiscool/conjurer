@@ -73,8 +73,9 @@ const DashboardSidebar = () => {
         <hr className="mt-5" />
       </div>
       <div
-        className="flex items-center m-8 cursor-pointer"
-        onClick={() => changeActiveTabs("profile")}
+        className="flex items-center m-8 cursor-default"
+        title="Coming soon..."
+        // onClick={() => changeActiveTabs("profile")}
       >
         <svg
           width="24"

@@ -15,10 +15,12 @@ import SearchBar from "../../../components/barricade/SearchBar";
 import { DashboardTabChangeContext } from "../../../contexts/DashboardTabChangeContext";
 import { ToastContainer, toast, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RenderNftsContext } from "../../../contexts/RenderNftsContext";
 
 const Dashboard = () => {
   const [unlockedNfts, setUnlockedNfts] = useState<NFTDataType[]>([]);
   const [lockedNfts, setLockedNfts] = useState<NFTDataType[]>([]);
+  const [renderNfts, setRenderNfts] = useState<NFTDataType[]>([]);
 
   const [activeTabState, setActiveTabState] =
     useState<ActiveTabTypes>("unlocked");
@@ -29,7 +31,7 @@ const Dashboard = () => {
   );
 
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
+  const [info, setInfo] = useState("");
 
   const wallet = useWallet();
   const connection = new Connection(connectionCluster);
@@ -76,11 +78,11 @@ const Dashboard = () => {
   }, [error]);
 
   useEffect(() => {
-    if (loading && loading !== "") {
-      toast.loading(loading, toastSettings);
-      setLoading("");
+    if (info && info !== "") {
+      toast.info(info, toastSettings);
+      setInfo("");
     }
-  }, [loading]);
+  }, [info]);
 
   useEffect(() => {
     if (wallet.connected) {
@@ -93,13 +95,25 @@ const Dashboard = () => {
     }
   }, [wallet]);
 
+  useEffect(() => {
+    if (activeTabState === "unlocked") {
+      setRenderNfts(unlockedNfts);
+    } else if (activeTabState === "locked") {
+      setRenderNfts(lockedNfts);
+    } else {
+      setError("Render nfts error...");
+    }
+  }, [activeTabState, unlockedNfts, lockedNfts]);
+
   async function lockNft() {
     try {
       if (!selectedNftMint || selectedNftMint === undefined) {
         throw new Error("Please select an NFT.");
       }
 
-      setLoading("Locking Nft... Please accept both transaction pop-ups.");
+      if (activeTabState !== "unlocked") return;
+
+      setInfo("Locking Nft... Please accept both transaction pop-ups.");
 
       const res = await barricade.lockNFT(selectedNftMint);
       console.log(res);
@@ -111,7 +125,13 @@ const Dashboard = () => {
     }
   }
 
-  async function unlock() {
+  async function unlockNft() {
+    if (!selectedNftMint || selectedNftMint === undefined) {
+      throw new Error("Please select an NFT.");
+    }
+
+    if (activeTabState !== "locked") return;
+
     const res = await barricade.unlockNFT(lockedNfts[0].mint);
     console.log(res);
 
@@ -120,12 +140,12 @@ const Dashboard = () => {
 
   function UnlockedTab() {
     return (
-      <div className="m-16 w-screen">
+      <div className="m-16">
         <div className="flex justify-center">
           <SearchBar nfts={unlockedNfts} />
         </div>
         <h1 className="md:text-4xl text-white font-bold">Unlocked Nfts</h1>
-        <p>active tab: {activeTabState}</p>
+        {/* <p>active tab: {activeTabState}</p> */}
         {/* {error && error !== "" ? (
         <p className="text-xl font-medium text-red-400">
           Error: {error}
@@ -133,23 +153,11 @@ const Dashboard = () => {
       ) : (
         ""
       )} */}
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
         {/* <p>{selectedNftMint?.toBase58()}</p> */}
         {/* <button onClick={fetchAllNfts}>fetch nfts</button> */}
         <div className="flex flex-wrap">
-          {unlockedNfts.length !== 0 ? (
-            unlockedNfts.map((nft) => {
+          {renderNfts.length !== 0 ? (
+            renderNfts.map((nft) => {
               return (
                 <NftItem
                   key={nft.mint.toBase58()}
@@ -165,7 +173,7 @@ const Dashboard = () => {
             </h1>
           )}
         </div>
-        <button onClick={unlock}>unlock(dev)</button>
+        {/* <button onClick={unlockNft}>unlock(dev)</button> */}
         {selectedNftMint !== undefined ? (
           <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-5 font-medium rounded-md">
             <button onClick={lockNft} className="text-white mb-1">
@@ -188,20 +196,48 @@ const Dashboard = () => {
 
   function LockedTab() {
     return (
-      <div>
-        <h1>Locked Nfts</h1>
-        <div>
-          {lockedNfts.map((nft) => {
-            return (
-              <NftItem
-                key={nft.mint.toBase58()}
-                mint={nft.mint}
-                image={nft.image}
-                name={nft.name}
-              />
-            );
-          })}
+      <div className="m-16">
+        <div className="flex justify-center">
+          <SearchBar nfts={lockedNfts} />
         </div>
+        <h1 className="md:text-4xl text-white font-bold">Locked Nfts</h1>
+        <div className="flex flex-wrap">
+          {renderNfts.length !== 0 ? (
+            renderNfts.map((nft) => {
+              return (
+                <NftItem
+                  key={nft.mint.toBase58()}
+                  mint={nft.mint}
+                  image={nft.image}
+                  name={nft.name}
+                />
+              );
+            })
+          ) : (
+            <h1 className="text-white font-medium mt-3">
+              No locked nfts found in wallet
+            </h1>
+          )}
+        </div>
+        {selectedNftMint !== undefined ? (
+          <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-5 font-medium rounded-md">
+            <button
+              onClick={unlockNft}
+              className="text-white mb-1 hover:text-slate-300"
+            >
+              Unlock Selected NFT
+            </button>
+            <hr />
+            <button
+              onClick={() => setSelectedNftMint(undefined)}
+              className="text-red-200 mt-1"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
@@ -238,30 +274,47 @@ const Dashboard = () => {
           //@ts-ignore
           value={{ activeTabState, setActiveTabState }}
         >
-          <div className="flex">
-            <DashboardSidebar />
-            {wallet.connected ? (
-              <div>
-                {activeTabState === "locked" ? (
-                  <LockedTab />
-                ) : (
-                  <div>
-                    {activeTabState === "profile" ? (
-                      <ProfileTab />
-                    ) : (
-                      <div>
-                        {activeTabState === "unlocked" ? <UnlockedTab /> : ""}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <h1 className="text-2xl m-6 text-white font-medium">
-                Please connect wallet
-              </h1>
-            )}
-          </div>
+          <RenderNftsContext.Provider
+            //@ts-ignore
+            value={{ renderNfts, setRenderNfts }}
+          >
+            <ToastContainer
+              position="bottom-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
+            <div className="flex">
+              <DashboardSidebar />
+              {wallet.connected ? (
+                <div className="">
+                  {activeTabState === "locked" ? (
+                    <LockedTab />
+                  ) : (
+                    <div className="">
+                      {activeTabState === "profile" ? (
+                        <ProfileTab />
+                      ) : (
+                        <div className="">
+                          {activeTabState === "unlocked" ? <UnlockedTab /> : ""}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <h1 className="text-2xl m-6 text-white font-medium">
+                  Please connect wallet
+                </h1>
+              )}
+            </div>
+          </RenderNftsContext.Provider>
         </DashboardTabChangeContext.Provider>
       </SelectedNftContext.Provider>
     </MainContainer>

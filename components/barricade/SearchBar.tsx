@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { RenderNftsContext } from "../../contexts/RenderNftsContext";
 import { NFTDataType } from "../../utils/barricade-js/types";
 
 type SearchBarType = {
@@ -8,6 +9,9 @@ type SearchBarType = {
 const SearchBar = ({ nfts }: SearchBarType) => {
   const [inputQuery, setInputQuery] = useState<string>("");
 
+  //@ts-ignore
+  const { setRenderNfts } = useContext(RenderNftsContext);
+
   function formSubmitHandler(e: any) {
     e.preventDefault();
     if (!nfts || nfts.length === 0) return;
@@ -16,25 +20,29 @@ const SearchBar = ({ nfts }: SearchBarType) => {
     console.log("Form Submitted");
     console.log(inputQuery);
 
-    let matchQuery = [];
+    // let matchQuery = [];
 
-    for (let i = 0; i < nfts.length; i++) {
-      if (nfts[i].name.toLowerCase().includes(inputQuery)) {
-        matchQuery.push(nfts[i]);
-      }
-    }
+    // for (let i = 0; i < nfts.length; i++) {
+    //   if (nfts[i].name.toLowerCase().includes(inputQuery)) {
+    //     matchQuery.push(nfts[i]);
+    //   }
+    // }
+    const matchQuery = nfts.filter((nft) =>
+      nft.name.toLowerCase().includes(inputQuery)
+    );
 
-    console.log(matchQuery);
+    setRenderNfts(matchQuery);
+    // console.log(matchQuery);
   }
 
   useEffect(() => {
     if (inputQuery === "") {
-      console.log("query cleared");
+      // console.log("query cleared");
     }
   }, [inputQuery]);
 
   return (
-    <div className="">
+    <div className="flex justify-center">
       <form
         className="flex shadow-xl border border-slate-300 bg-[#3e678c]/[.5] pl-4 pr-4 p-2 mb-4 rounded-2xl justify-between sm:w-[450px]"
         onSubmit={formSubmitHandler}

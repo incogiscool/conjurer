@@ -110,17 +110,17 @@ export class Barricade {
         const uri = nft.uri;
         const uriFetch = await (await fetch(uri)).json();
 
-        console.log(
-          `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
-        );
+        // console.log(
+        //   `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
+        // );
 
         const name = uriFetch.name;
         const image = uriFetch.image;
 
-        console.log("Name: ", name);
+        // console.log("Name: ", name);
         const { isFrozen } = await getAccount(this.connection, tokenAcc);
 
-        console.log("Is locked: ", isFrozen);
+        // console.log("Is locked: ", isFrozen);
 
         return {
           mint,

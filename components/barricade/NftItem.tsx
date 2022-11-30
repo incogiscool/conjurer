@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SelectedNftContext } from "../../contexts/SelectedNftContext";
 
 type NftItem = {
@@ -9,6 +9,8 @@ type NftItem = {
 };
 
 const NftItem = ({ mint, name, image }: NftItem) => {
+  const [splitName, setSplitName] = useState<string[]>([]);
+
   //@ts-ignore
   const { selectedNftMint, setSelectedNftMint } =
     useContext(SelectedNftContext);
@@ -17,10 +19,22 @@ const NftItem = ({ mint, name, image }: NftItem) => {
     setSelectedNftMint(mint);
   }
 
+  function splitNameAndNumber() {
+    if (!name.includes("#")) return;
+
+    const split = name.split("#");
+    setSplitName(split);
+    // console.log(split);
+  }
+
+  useEffect(() => {
+    splitNameAndNumber();
+  }, [name]);
+
   return (
     <div
       onClick={() => handleSelectNft(mint)}
-      className={`bg-nftItemBackground grid justify-center p-4 rounded-xl mr-12 mt-12 shadow-xl hover:shadow-2xl transition cursor-pointer ${
+      className={`bg-nftItemBackground grid justify-center p-2 rounded-xl mr-12 mt-12 shadow-xl hover:shadow-2xl transition cursor-pointer ${
         selectedNftMint === mint ? "outline outline-white outline-2" : ""
       }`}
     >
@@ -31,7 +45,14 @@ const NftItem = ({ mint, name, image }: NftItem) => {
           className="w-[200px] h-[200px] rounded-md object-cover"
         />
       </div>
-      <p className="font-medium text-white">{name}</p>
+      {splitName.length !== 0 ? (
+        <div className="flex justify-between">
+          <p className="font-medium text-white">{splitName[0]}</p>
+          <p className="font-medium text-white">#{splitName[1]}</p>
+        </div>
+      ) : (
+        <p className="font-medium text-white">{name}</p>
+      )}
     </div>
   );
 };

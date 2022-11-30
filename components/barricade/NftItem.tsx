@@ -28,7 +28,7 @@ const NftItem = ({ mint, name, image }: NftItem) => {
         <img
           src={image}
           alt="nft-image"
-          className="w-[200px] h-[200px] rounded-md"
+          className="w-[200px] h-[200px] rounded-md object-cover"
         />
       </div>
       <p className="font-medium text-white">{name}</p>

@@ -6,6 +6,8 @@ import BackgroundSphere from "../../components/barricade/BackgroundSphere";
 import MainButton from "../../components/barricade/MainButton";
 import Link from "next/link";
 import Cards from "../../components/barricade/Cards";
+import ShowoffDesktopImage from "../../public/barricade-show-landing-desktop.png";
+import ShowoffMobileImage from "../../public/barricade-showoff-mobile.png";
 
 const Barricade = () => {
   return (
@@ -59,12 +61,27 @@ const Barricade = () => {
               viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante
               vitae facilisis. Mauris sed vehicula arcu.
             </p>
-            <div>pics placeholder</div>
+            <div className="flex flex-wrap justify-center m-16">
+              <Image
+                src={ShowoffDesktopImage}
+                alt="showoff-desktop-image"
+                width={500}
+                height={350}
+                className="m-3"
+              />
+              <Image
+                src={ShowoffMobileImage}
+                alt="showoff-desktop-image"
+                width={200}
+                height={500}
+                className="m-3"
+              />
+            </div>
             <div>
               <h4 className="text-4xl font-medium text-main m-4">
                 Why Barricade?
               </h4>
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap justify-center">
                 <Cards
                   header="Secure"
                   text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac."

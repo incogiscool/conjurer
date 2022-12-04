@@ -52,15 +52,14 @@ const Barricade = () => {
             <h1 className="text-6xl font-medium text-main">
               What is Barricade?
             </h1>
-            <p className="m-12 text-white max-w-6xl font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-              turpis enim, malesuada vel euismod eget, efficitur vitae lacus.
-              Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac.
-              Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor
-              neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus.
-              Maecenas pretium dolor at velit mollis, vestibulum finibus felis
-              viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante
-              vitae facilisis. Mauris sed vehicula arcu.
+            <p className="text-white font-medium m-4">
+              The way Barricade allows you to secure your assets is by freezing
+              them in your wallet, this way no one could move your tokens even
+              if they get access to your wallet. The one and only way your NFTs
+              could be unlocked is through your permission from Barricade, which
+              only you have the control over. This is by far the most safe way
+              to safely store your valuables, and we do it here through
+              Barricade.
             </p>
             <div className="flex flex-wrap justify-center m-16">
               <Image
@@ -85,36 +84,36 @@ const Barricade = () => {
               <div className="flex flex-wrap justify-center">
                 <Cards
                   header="Secure"
-                  text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac."
+                  text="A new way to secure your NFTs and SPL tokens. Introducing Barricade, the first ever security tool to safely store your assets through a vault supported by the community."
                 />
                 <Cards
                   header="Affordable"
-                  text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac."
+                  text="Our main priority is to guard the NFT space from malicious intents, all while providing an affordable service to be fair with everyone."
                 />
               </div>
             </div>
           </section>
-          <section className="text-center m-16" id="faq">
-            <h1 className="text-6xl font-medium text-main">FAQ</h1>
+          <section className="m-16" id="faq">
+            <h1 className="text-6xl font-medium text-main text-center">FAQ</h1>
             <main className="m-6 justify-center">
               <AccordionComponent
                 header="What exactly is Barricade?"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                text="Barricade is a Conjurer-powered security tool. You can use Barricade to secure any of your Token or NFTs while maintaining the complete ownership of your assets as they're stored in your default wallet."
                 className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="Why would I use Barricade?"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                text="Barricade is primarily a digital ledger that is more secure than your traditional physical ledger, once your NFT is locked, even you will not be able to move it unless you unlock it through barricade. This secures all your assets and prevents them from being drained by malicious links, fake mint sites, exploitive extensions or any unauthorized access."
                 className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="How much do you charge?"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                text="There is a very minimal fee against per NFT you lock with the Barricade vault, each time you lock your NFT you will only be charged once."
                 className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="What does Barricade mean to Conjurer?"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                text="One of the many tools created by Conjurer is Barricade. Conjurer is a group of builders that specialize in developing tools, addressing and resolving difficulties in the NFT space, and working on building additional revenue for holders."
                 className="text-white bg-buttonBackgroundAlt/50"
               />
             </main>

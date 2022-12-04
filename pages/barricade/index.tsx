@@ -8,6 +8,7 @@ import Link from "next/link";
 import Cards from "../../components/barricade/Cards";
 import ShowoffDesktopImage from "../../public/barricade-show-landing-desktop.png";
 import ShowoffMobileImage from "../../public/barricade-showoff-mobile.png";
+import AccordionComponent from "../../components/barricade/AccordionComponent";
 
 const Barricade = () => {
   return (
@@ -47,7 +48,7 @@ const Barricade = () => {
               </div>
             </div>
           </section>
-          <section className="text-center">
+          <section className="text-center" id="about">
             <h1 className="text-6xl font-medium text-main">
               What is Barricade?
             </h1>
@@ -65,7 +66,7 @@ const Barricade = () => {
               <Image
                 src={ShowoffDesktopImage}
                 alt="showoff-desktop-image"
-                width={500}
+                width={550}
                 height={350}
                 className="m-3"
               />
@@ -92,6 +93,31 @@ const Barricade = () => {
                 />
               </div>
             </div>
+          </section>
+          <section className="text-center m-16" id="faq">
+            <h1 className="text-6xl font-medium text-main">FAQ</h1>
+            <main className="m-6 justify-center">
+              <AccordionComponent
+                header="What exactly is Barricade?"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                className="text-white bg-buttonBackgroundAlt/50"
+              />
+              <AccordionComponent
+                header="Why would I use Barricade?"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                className="text-white bg-buttonBackgroundAlt/50"
+              />
+              <AccordionComponent
+                header="How much do you charge?"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                className="text-white bg-buttonBackgroundAlt/50"
+              />
+              <AccordionComponent
+                header="What does Barricade mean to Conjurer?"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla turpis enim, malesuada vel euismod eget, efficitur vitae lacus. Phasellus sagittis velit ipsum, quis lobortis libero aliquet ac. Praesent varius, justo ac suscipit sollicitudin, nisi magna auctor neque, eu rhoncus ipsum magna quis lacus. Donec non risus metus. Maecenas pretium dolor at velit mollis, vestibulum finibus felis viverra. Suspendisse id ipsum nisl. Maecenas molestie viverra ante vitae facilisis. Mauris sed vehicula arcu."
+                className="text-white bg-buttonBackgroundAlt/50"
+              />
+            </main>
           </section>
         </main>
       </MainContainer>

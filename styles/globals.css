@@ -13,6 +13,7 @@ body {
     #00548e 15.97%,
     rgba(0, 150, 255, 0.53) 87.95%
   );
+  scroll-behavior: smooth;
 }
 
 a {
@@ -22,6 +23,7 @@ a {
 
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 #background-sphere {

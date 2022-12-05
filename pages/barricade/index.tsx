@@ -48,11 +48,11 @@ const Barricade = () => {
               </div>
             </div>
           </section>
-          <section className="text-center" id="about">
+          <section className="text-center justify-center grid" id="about">
             <h1 className="text-6xl font-medium text-main">
               What is Barricade?
             </h1>
-            <p className="text-white font-medium m-4">
+            <p className="text-white font-medium m-4 max-w-6xl justify-center">
               The way Barricade allows you to secure your assets is by freezing
               them in your wallet, this way no one could move your tokens even
               if they get access to your wallet. The one and only way your NFTs
@@ -65,15 +65,15 @@ const Barricade = () => {
               <Image
                 src={ShowoffDesktopImage}
                 alt="showoff-desktop-image"
-                width={550}
-                height={350}
+                width={675}
+                height={425}
                 className="m-3"
               />
               <Image
                 src={ShowoffMobileImage}
                 alt="showoff-desktop-image"
-                width={200}
-                height={500}
+                width={300}
+                height={600}
                 className="m-3"
               />
             </div>

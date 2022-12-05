@@ -65,7 +65,7 @@ const Barricade = () => {
               <Image
                 src={ShowoffDesktopImage}
                 alt="showoff-desktop-image"
-                width={675}
+                width={750}
                 height={425}
                 className="m-3"
               />

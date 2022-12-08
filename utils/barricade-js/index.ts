@@ -95,31 +95,29 @@ export class Barricade {
     console.log(transaction.response.signature);
   }
 
-  public async fetchAllNFTs(): Promise<NFTDataType[]> {
+  public async fetchAllNFTs(): Promise<(NFTDataType | null)[]> {
     const nfts = await this.metaplex.nfts().findAllByOwner({
       //@ts-ignore
       owner: this.publicKey,
     });
 
-    const allNFTs: NFTDataType[] = await Promise.all(
+    const allNFTs: (NFTDataType | null)[] = await Promise.all(
       nfts.map(async (nft) => {
-        //@ts-ignore
-        const mint = nft.mintAddress;
+        try {
         //@ts-ignore
         const tokenAcc = await getAssociatedTokenAddress(mint, this.publicKey);
-        const uri = nft.uri;
-        const uriFetch = await (await fetch(uri)).json();
+        const uriFetch = await (await fetch(nft.uri)).json();
+        const { isFrozen } = await getAccount(this.connection, tokenAcc);
+
+        //@ts-ignore
+        const mint = nft.mintAddress;
+        const name = uriFetch.name;
+        const image = uriFetch.image;
 
         // console.log(
         //   `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
         // );
-
-        const name = uriFetch.name;
-        const image = uriFetch.image;
-
         // console.log("Name: ", name);
-        const { isFrozen } = await getAccount(this.connection, tokenAcc);
-
         // console.log("Is locked: ", isFrozen);
 
         return {
@@ -128,10 +126,15 @@ export class Barricade {
           image,
           isFrozen,
         };
+        } catch(err) {
+          console.log(err);
+          return null
+        }
       })
     );
+    const filteredFromUndefined = allNFTs.filter((nft) => nft !== null);
 
-    return allNFTs;
+    return filteredFromUndefined;
   }
 
   public async getWalletBalance() {

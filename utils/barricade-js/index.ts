@@ -95,7 +95,7 @@ export class Barricade {
     console.log(transaction.response.signature);
   }
 
-  public async fetchAllNFTs(): Promise<(NFTDataType | null)[]> {
+  public async fetchAllNFTs(): Promise<NFTDataType[]> {
     const nfts = await this.metaplex.nfts().findAllByOwner({
       //@ts-ignore
       owner: this.publicKey,
@@ -134,6 +134,7 @@ export class Barricade {
     );
     const filteredFromUndefined = allNFTs.filter((nft) => nft !== null);
 
+    //@ts-ignore
     return filteredFromUndefined;
   }
 

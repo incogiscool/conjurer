@@ -146,10 +146,6 @@ const Dashboard = () => {
   function UnlockedTab() {
     return (
       <div className="m-16">
-        <BackgroundSphere className="bottom-4 right-48" />
-        <BackgroundSphere className="top-36 left-58" />
-        <BackgroundSphere className="top-4 right-16 scale-50" />
-
         <div className="flex">
           <SearchBar nfts={unlockedNfts} />
         </div>
@@ -283,6 +279,9 @@ const Dashboard = () => {
             //@ts-ignore
             value={{ renderNfts, setRenderNfts }}
           >
+            <BackgroundSphere className="bottom-4 right-48" />
+            <BackgroundSphere className="top-36 left-58" />
+            <BackgroundSphere className="top-4 right-16 scale-50" />
             <ToastContainer
               position="bottom-center"
               autoClose={5000}

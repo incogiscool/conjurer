@@ -101,13 +101,15 @@ export class Barricade {
       owner: this.publicKey,
     });
 
-    const allNFTs: (NFTDataType | null)[] = await Promise.all(
+    const allNFTs: NFTDataType[] = await Promise.all(
       nfts.map(async (nft) => {
-        try {
-        //@ts-ignore
+        console.log("Fetching Token Account for:", nft.name)
+                //@ts-ignore
         const tokenAcc = await getAssociatedTokenAddress(mint, this.publicKey);
+        console.log("Fetching URI Info for: ", nft.name)
         const uriFetch = await (await fetch(nft.uri)).json();
-        const { isFrozen } = await getAccount(this.connection, tokenAcc);
+        const isFrozen = false;
+        // const { isFrozen } = await getAccount(this.connection, tokenAcc);
 
         //@ts-ignore
         const mint = nft.mintAddress;
@@ -126,10 +128,6 @@ export class Barricade {
           image,
           isFrozen,
         };
-        } catch(err) {
-          console.log(err);
-          return null
-        }
       })
     );
     const filteredFromUndefined = allNFTs.filter((nft) => nft !== null);

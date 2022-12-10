@@ -39,11 +39,3 @@ a {
     rgba(114, 255, 255, 0) 100%
   );
 }
-
-.profile-dashboard-tooltip {
-  visibility: hidden;
-}
-
-#profile-dashboard:hover .profile-dashboard-tooltip {
-  visibility: visible;
-}

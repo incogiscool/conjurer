@@ -22,7 +22,7 @@ const MainContainer = ({ children, title, className }: MainContainerTypes) => {
     ) {
       setSupported(false);
     }
-  });
+  }, []);
 
   return (
     <div className={className}>

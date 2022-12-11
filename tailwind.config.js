@@ -13,6 +13,7 @@ module.exports = {
         buttonBackgroundAlt: "#044982",
         dashboardSidebar: "#0d70d5",
         nftItemBackground: "#107eed",
+        tooltipBackground: "#0d70c0",
       },
     },
   },

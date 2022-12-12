@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 type MainContainerTypes = {
   children: ReactElement;
@@ -8,8 +8,15 @@ type MainContainerTypes = {
 };
 
 const MainContainer = ({ children, title, className }: MainContainerTypes) => {
-  const [supported, setSupported] = useState(true);
+  const [onMobile, setOnMobile] = useState(true);
 
+  let isOnMobile;
+  useEffect(() => {
+    isOnMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isOnMobile) {
+      setOnMobile(true);
+    } else setOnMobile(false);
+  }, []);
   // useState(() => {
   //   if (
   //     navigator.userAgent.match(/Android/i) ||
@@ -29,7 +36,13 @@ const MainContainer = ({ children, title, className }: MainContainerTypes) => {
       <Head>
         <title>{title}</title>
       </Head>
-      {supported ? <div>{children}</div> : <div>device not supported</div>}
+      {onMobile ? (
+        <div className="flex justify-center text-white font-bold text-3xl">
+          Device not supported
+        </div>
+      ) : (
+        <div>{children}</div>
+      )}
     </div>
   );
 };

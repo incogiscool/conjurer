@@ -32,15 +32,11 @@ export class Barricade {
     const edition = nft.edition.address;
     const address = nft.address;
 
-    const account = await getOrCreateAssociatedTokenAccount(
-      this.connection,
-      //@ts-ignore
-      this.wallet,
+    const nftTokenAcc = await getAssociatedTokenAddress(
       nftMint,
+      //@ts-ignore
       this.publicKey
     );
-
-    const nftTokenAcc = account.address;
 
     await this.metaplex.tokens().approveDelegateAuthority({
       mintAddress: nftMint,
@@ -108,14 +104,7 @@ export class Barricade {
         console.log("Fetching Token Account for:", nft.name);
 
         //@ts-ignore
-        const tokenAccountRaw = await getOrCreateAssociatedTokenAccount(
-          this.connection,
-          //@ts-ignore
-          this.publicKey,
-          mint,
-          this.publicKey
-        );
-        const tokenAcc = tokenAccountRaw.address;
+        const tokenAcc = await getAssociatedTokenAddress(mint, this.publicKey);
         console.log("Token Account: ", tokenAcc.toBase58());
 
         console.log("Fetching URI Info for: ", nft.name);

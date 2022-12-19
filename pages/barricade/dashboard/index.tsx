@@ -178,16 +178,12 @@ const Dashboard = () => {
         </div>
         {/* <button onClick={unlockNft}>unlock(dev)</button> */}
         {selectedNftMint !== undefined ? (
-          <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-5 font-medium rounded-md">
-            <button onClick={lockNft} className="text-white mb-1">
-              Lock Selected NFT
-            </button>
-            <hr />
+          <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-3 font-medium rounded-md">
             <button
-              onClick={() => setSelectedNftMint(undefined)}
-              className="text-red-200 mt-1"
+              onClick={lockNft}
+              className="text-white mb-1 hover:text-slate-300 transition"
             >
-              Cancel
+              Lock Selected NFT
             </button>
           </div>
         ) : (
@@ -221,19 +217,12 @@ const Dashboard = () => {
           )}
         </div>
         {selectedNftMint !== undefined ? (
-          <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-5 font-medium rounded-md">
+          <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-3 font-medium rounded-md">
             <button
               onClick={unlockNft}
-              className="text-white mb-1 hover:text-slate-300"
+              className="text-white mb-1 hover:text-slate-300 transition"
             >
               Unlock Selected NFT
-            </button>
-            <hr />
-            <button
-              onClick={() => setSelectedNftMint(undefined)}
-              className="text-red-200 mt-1"
-            >
-              Cancel
             </button>
           </div>
         ) : (

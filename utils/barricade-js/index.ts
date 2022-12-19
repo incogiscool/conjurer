@@ -26,6 +26,7 @@ export class Barricade {
     ),
     readonly feeWallet = barricadeFeeWallet
   ) {}
+
   public async lockNFT(nftMint: PublicKey) {
     const nft = await this.metaplex.nfts().findByMint({ mintAddress: nftMint });
     //@ts-ignore

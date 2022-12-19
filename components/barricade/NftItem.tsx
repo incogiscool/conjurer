@@ -16,7 +16,15 @@ const NftItem = ({ mint, name, image }: NftItem) => {
     useContext(SelectedNftContext);
 
   function handleSelectNft(mint: PublicKey) {
-    setSelectedNftMint(mint);
+    setSelectedNftMint(() => {
+      if (selectedNftMint === undefined) {
+        return mint;
+      } else if (selectedNftMint !== undefined && selectedNftMint !== mint) {
+        return mint;
+      } else {
+        return undefined;
+      }
+    });
   }
 
   function splitNameAndNumber() {

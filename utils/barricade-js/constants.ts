@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 
-export const connectionCluster: string = "https://api.mainnet-beta.solana.com";
+export const connectionCluster: string =
+  "https://try-rpc.mainnet.solana.blockdaemon.tech/";
 // "https://flashy-proportionate-breeze.solana-mainnet.discover.quiknode.pro/49db30a0b4eb3f8d07e88d844e9a24ddbdf86dc9/";
 export const lockNFTFee: number = 0.01;
 export const barricadeTitle: string = "Barricade - Keeping your tokens secure.";

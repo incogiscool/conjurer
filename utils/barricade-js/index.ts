@@ -103,11 +103,18 @@ export class Barricade {
         const mint = nft.mintAddress;
         console.log("Fetching Token Account for:", nft.name);
 
-        const tokenAcc = await getAssociatedTokenAddress(
-          mint,
-          //@ts-ignore
-          this.publicKey
+        // const tokenAcc = await getAssociatedTokenAddress(
+        //   mint,
+        //   //@ts-ignore
+        //   this.publicKey
+        // );
+
+        const acc = await this.connection.getTokenAccountsByOwner(
+          this.publicKey,
+          { mint }
         );
+
+        const tokenAcc = acc.value[0].pubkey;
         console.log("Token Account: ", tokenAcc.toBase58());
 
         console.log("Fetching URI Info for: ", nft.name);

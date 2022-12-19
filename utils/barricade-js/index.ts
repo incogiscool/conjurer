@@ -110,6 +110,7 @@ export class Barricade {
         // );
 
         const acc = await this.connection.getTokenAccountsByOwner(
+          //@ts-ignore
           this.publicKey,
           { mint }
         );

@@ -42,9 +42,9 @@ const Barricade = () => {
                 Barricade
               </h1>
               <div className="flex justify-center items-center flex-wrap m-5">
-                <MainButton text="About" link={`${prefix}#about`} />
-                <MainButton text="FAQ" link={`${prefix}#faq`} />
-                <MainButton text="Dashboard" link={`${prefix}/dashboard`} />
+                <MainButton text="About" href={`${prefix}#about`} />
+                <MainButton text="FAQ" href={`${prefix}#faq`} />
+                <MainButton text="Dashboard" href={`${prefix}/dashboard`} />
               </div>
             </div>
           </section>

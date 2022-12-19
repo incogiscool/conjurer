@@ -14,14 +14,12 @@ const SearchBar = ({ nfts }: SearchBarType) => {
 
   function formSubmitHandler(e: any) {
     e.preventDefault();
+
     if (!nfts || nfts.length === 0) return;
     if (inputQuery === "") return;
-
-    console.log("Form Submitted");
-    console.log(inputQuery);
-
+    // console.log("Form Submitted");
+    // console.log(inputQuery);
     // let matchQuery = [];
-
     // for (let i = 0; i < nfts.length; i++) {
     //   if (nfts[i].name.toLowerCase().includes(inputQuery)) {
     //     matchQuery.push(nfts[i]);
@@ -30,17 +28,16 @@ const SearchBar = ({ nfts }: SearchBarType) => {
     const matchQuery = nfts.filter((nft) =>
       nft.name.toLowerCase().includes(inputQuery)
     );
-
     setRenderNfts(matchQuery);
     // console.log(matchQuery);
   }
 
-  useEffect(() => {
-    if (inputQuery === "") {
-      // console.log("query cleared");
-      // setRenderNfts(nfts);
-    }
-  }, [inputQuery]);
+  // useEffect(() => {
+  //   if (inputQuery === "") {
+  //     console.log("query cleared");
+  //     // setRenderNfts(nfts);
+  //   }
+  // }, [inputQuery]);
 
   return (
     <div className="flex justify-center mb-4">

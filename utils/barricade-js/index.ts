@@ -32,15 +32,13 @@ export class Barricade {
     const edition = nft.edition.address;
     const address = nft.address;
 
-    const account = await getOrCreateAssociatedTokenAccount(
-      this.connection,
+    const acc = await this.connection.getTokenAccountsByOwner(
       //@ts-ignore
-      this.wallet,
-      nftMint,
-      this.publicKey
+      this.publicKey,
+      { nftMint }
     );
 
-    const nftTokenAcc = account.address;
+    const nftTokenAcc = acc.value[0].pubkey;
 
     await this.metaplex.tokens().approveDelegateAuthority({
       mintAddress: nftMint,
@@ -105,22 +103,37 @@ export class Barricade {
       nfts.map(async (nft) => {
         //@ts-ignore
         const mint = nft.mintAddress;
-        //@ts-ignore
-        const tokenAcc = await getAssociatedTokenAddress(mint, this.publicKey);
-        const uri = nft.uri;
-        const uriFetch = await (await fetch(uri)).json();
+        console.log("Fetching Token Account for:", nft.name);
 
-        // console.log(
-        //   `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
+        // const tokenAcc = await getAssociatedTokenAddress(
+        //   mint,
+        //   //@ts-ignore
+        //   this.publicKey
         // );
+
+        const acc = await this.connection.getTokenAccountsByOwner(
+          //@ts-ignore
+          this.publicKey,
+          { mint }
+        );
+
+        const tokenAcc = acc.value[0].pubkey;
+        console.log("Token Account: ", tokenAcc.toBase58());
+
+        console.log("Fetching URI Info for: ", nft.name);
+        const uriFetch = await (await fetch(nft.uri)).json();
+        // const isFrozen = false;
+        console.log("Checking if frozen: ", nft.name);
+        const { isFrozen } = await getAccount(this.connection, tokenAcc);
 
         const name = uriFetch.name;
         const image = uriFetch.image;
 
-        // console.log("Name: ", name);
-        const { isFrozen } = await getAccount(this.connection, tokenAcc);
-
-        // console.log("Is locked: ", isFrozen);
+        // console.log(
+        //   `Mint: ${mint.toBase58()}\nToken Account: ${tokenAcc.toBase58()}`
+        // );
+        console.log("Name: ", name);
+        console.log("Is locked: ", isFrozen);
 
         return {
           mint,
@@ -130,8 +143,10 @@ export class Barricade {
         };
       })
     );
+    const filteredFromUndefined = allNFTs.filter((nft) => nft !== null);
 
-    return allNFTs;
+    //@ts-ignore
+    return filteredFromUndefined;
   }
 
   public async getWalletBalance() {

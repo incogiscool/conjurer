@@ -28,6 +28,8 @@ export class Barricade {
   ) {}
 
   public async lockNFT(nftMint: PublicKey) {
+    //fetch delegate and see if corresponds with user
+
     const nft = await this.metaplex.nfts().findByMint({ mintAddress: nftMint });
     //@ts-ignore
     const edition = nft.edition.address;
@@ -84,6 +86,8 @@ export class Barricade {
   }
 
   public async unlockNFT(nftMint: PublicKey) {
+    //fetch delegate and see if corresponds with user
+
     const transaction = await this.metaplex.nfts().thawDelegatedNft({
       mintAddress: nftMint,
       //@ts-ignore

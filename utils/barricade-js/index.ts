@@ -32,11 +32,13 @@ export class Barricade {
     const edition = nft.edition.address;
     const address = nft.address;
 
-    const nftTokenAcc = await getAssociatedTokenAddress(
-      nftMint,
+    const acc = await this.connection.getTokenAccountsByOwner(
       //@ts-ignore
-      this.publicKey
+      this.publicKey,
+      { nftMint }
     );
+
+    const nftTokenAcc = acc.value[0].pubkey;
 
     await this.metaplex.tokens().approveDelegateAuthority({
       mintAddress: nftMint,

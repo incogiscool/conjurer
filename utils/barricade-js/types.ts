@@ -5,6 +5,7 @@ export type NFTDataType = {
   name: string;
   isFrozen: boolean;
   image: string;
+  tokenAcc: PublicKey;
 };
 
 export type ActiveTabTypes = "profile" | "locked" | "unlocked";

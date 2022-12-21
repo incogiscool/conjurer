@@ -116,7 +116,7 @@ const Dashboard = () => {
       const res = await barricade.lockNFT(selectedNftMint);
       console.log(res);
 
-      location.reload();
+      window.location.reload();
     } catch (err: any) {
       console.log(err);
       setError(err.message);
@@ -136,7 +136,7 @@ const Dashboard = () => {
       const res = await barricade.unlockNFT(lockedNfts[0].mint);
       console.log(res);
 
-      location.reload();
+      window.location.reload();
     } catch (err: any) {
       console.log(err);
       setError(err.message);

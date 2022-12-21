@@ -28,6 +28,7 @@ export class Barricade {
   ) {}
 
   public async lockNFT(nftMint: PublicKey) {
+    if (!nftMint) throw new Error("nftMint argument Empty!");
     //fetch delegate and see if corresponds with user
 
     const nft = await this.metaplex.nfts().findByMint({ mintAddress: nftMint });
@@ -38,10 +39,16 @@ export class Barricade {
     const acc = await this.connection.getTokenAccountsByOwner(
       //@ts-ignore
       this.publicKey,
-      { nftMint }
+      { mint: nftMint }
     );
 
     const nftTokenAcc = acc.value[0].pubkey;
+
+    // const nftTokenAcc = await getAssociatedTokenAddress(
+    //   nftMint,
+    //   //@ts-ignore
+    //   this.publicKey
+    // );
 
     await this.metaplex.tokens().approveDelegateAuthority({
       mintAddress: nftMint,
@@ -80,9 +87,12 @@ export class Barricade {
       signedTransaction.serialize()
     );
 
-    await this.connection.confirmTransaction(transactionAddress);
+    const trasnactionConfirm = await this.connection.confirmTransaction(
+      transactionAddress
+    );
+    // console.log(trasnactionConfirm);
 
-    console.log(transactionAddress);
+    return transactionAddress;
   }
 
   public async unlockNFT(nftMint: PublicKey) {
@@ -95,7 +105,7 @@ export class Barricade {
       delegateAuthority: this.wallet,
     });
 
-    console.log(transaction.response.signature);
+    return transaction.response.signature;
   }
 
   public async fetchAllNFTs(): Promise<NFTDataType[]> {
@@ -123,6 +133,7 @@ export class Barricade {
         );
 
         const tokenAcc = acc.value[0].pubkey;
+
         console.log("Token Account: ", tokenAcc.toBase58());
 
         console.log("Fetching URI Info for: ", nft.name);
@@ -145,6 +156,7 @@ export class Barricade {
           name,
           image,
           isFrozen,
+          tokenAcc,
         };
       })
     );

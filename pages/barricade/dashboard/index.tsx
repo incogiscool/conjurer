@@ -17,6 +17,7 @@ import { ToastContainer, toast, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RenderNftsContext } from "../../../contexts/RenderNftsContext";
 import BackgroundSphere from "../../../components/barricade/BackgroundSphere";
+import { LockMultipleNftsType } from "../../../utils/barricade-js/types";
 
 const Dashboard = () => {
   const [unlockedNfts, setUnlockedNfts] = useState<NFTDataType[]>([]);
@@ -26,10 +27,9 @@ const Dashboard = () => {
   const [activeTabState, setActiveTabState] =
     useState<ActiveTabTypes>("unlocked");
   // const [activeTab, setActiveTab] = useState<JSX.Element>();
-
-  const [selectedNftMint, setSelectedNftMint] = useState<PublicKey | undefined>(
-    undefined
-  );
+  const [selectedNfts, setSelectedNfts] = useState<
+    LockMultipleNftsType[] | undefined
+  >(undefined);
 
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
@@ -105,20 +105,24 @@ const Dashboard = () => {
 
   async function lockNft() {
     try {
-      if (!selectedNftMint || selectedNftMint === undefined) {
+      if (!selectedNfts || selectedNfts === undefined) {
         throw new Error("Please select an NFT.");
       }
 
       if (activeTabState !== "unlocked") return;
 
-      setInfo("Locking NFT ( Accept both transactions).");
+      setInfo("Locking NFT(s).");
 
-      const res = await barricade.lockNFT(selectedNftMint);
+      // const res = await barricade.lockNFT(
+      //   selectedNfts[0].nftMint,
+      //   selectedNfts[0].nftTokenAcc
+      // );
+      const res = await barricade.lockMultipleNFTs(selectedNfts);
       console.log(res);
 
       await fetchAllNfts();
 
-      setSelectedNftMint(undefined);
+      setSelectedNfts(undefined);
 
       // window.location.reload();
     } catch (err: any) {
@@ -129,20 +133,20 @@ const Dashboard = () => {
 
   async function unlockNft() {
     try {
-      if (!selectedNftMint || selectedNftMint === undefined) {
+      if (!selectedNfts || selectedNfts === undefined) {
         throw new Error("Please select an NFT.");
       }
 
       if (activeTabState !== "locked") return;
 
-      setInfo("Unlocking NFT (Accept Transaction).");
+      setInfo("Unlocking NFT(s).");
 
       const res = await barricade.unlockNFT(lockedNfts[0].mint);
       console.log(res);
 
       await fetchAllNfts();
 
-      setSelectedNftMint(undefined);
+      setSelectedNfts(undefined);
 
       // window.location.reload();
     } catch (err: any) {
@@ -166,7 +170,7 @@ const Dashboard = () => {
       ) : (
         ""
       )} */}
-        {/* <p>{selectedNftMint?.toBase58()}</p> */}
+        {/* <p>{selectedNfts?.toBase58()}</p> */}
         {/* <button onClick={fetchAllNfts}>fetch nfts</button> */}
         <div className="flex flex-wrap">
           {renderNfts.length !== 0 ? (
@@ -177,6 +181,7 @@ const Dashboard = () => {
                   mint={nft.mint}
                   image={nft.image}
                   name={nft.name}
+                  tokenAccount={nft.tokenAcc}
                 />
               );
             })
@@ -185,7 +190,7 @@ const Dashboard = () => {
           )}
         </div>
         {/* <button onClick={unlockNft}>unlock(dev)</button> */}
-        {selectedNftMint !== undefined ? (
+        {selectedNfts !== undefined ? (
           <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-3 font-medium rounded-md">
             <button
               onClick={lockNft}
@@ -217,6 +222,7 @@ const Dashboard = () => {
                   mint={nft.mint}
                   image={nft.image}
                   name={nft.name}
+                  tokenAccount={nft.tokenAcc}
                 />
               );
             })
@@ -224,7 +230,7 @@ const Dashboard = () => {
             <h1 className="text-white font-medium mt-3">No NFTs Found</h1>
           )}
         </div>
-        {selectedNftMint !== undefined ? (
+        {selectedNfts !== undefined ? (
           <div className="fixed shadow-lg bottom-0 right-0 m-12 bg-dashboardSidebar p-3 font-medium rounded-md">
             <button
               onClick={unlockNft}
@@ -266,7 +272,7 @@ const Dashboard = () => {
     <MainContainer title={barricadeTitle} className="min-h-screen">
       <SelectedNftContext.Provider
         //@ts-ignore
-        value={{ selectedNftMint, setSelectedNftMint }}
+        value={{ selectedNfts, setSelectedNfts }}
       >
         <DashboardTabChangeContext.Provider
           //@ts-ignore

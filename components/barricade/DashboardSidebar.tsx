@@ -30,10 +30,10 @@ const DashboardSidebar = () => {
   //@ts-ignore
   const { setActiveTabState } = useContext(DashboardTabChangeContext);
   //@ts-ignore
-  const { setSelectedNftMint } = useContext(SelectedNftContext);
+  const { setSelectedNfts } = useContext(SelectedNftContext);
 
   function changeActiveTabs(tab: ActiveTabTypes) {
-    setSelectedNftMint(undefined);
+    setSelectedNfts(undefined);
     setActiveTabState(tab);
   }
 
@@ -60,7 +60,7 @@ const DashboardSidebar = () => {
   });
 
   return (
-    <div className="bg-dashboardSidebar flex flex-col w-[300px] block h-screen items-center justify-center">
+    <div className="bg-dashboardSidebar flex flex-col w-[300px] h-screen items-center justify-center">
       <div className="flex justify-center">
         <Link href={prefix}>
           <Image

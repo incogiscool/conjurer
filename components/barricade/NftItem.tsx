@@ -4,23 +4,28 @@ import { SelectedNftContext } from "../../contexts/SelectedNftContext";
 
 type NftItem = {
   mint: PublicKey;
+  tokenAccount: PublicKey;
   name: string;
   image: string;
 };
 
-const NftItem = ({ mint, name, image }: NftItem) => {
+const NftItem = ({ mint, tokenAccount, name, image }: NftItem) => {
   const [splitName, setSplitName] = useState<string[]>([]);
 
   //@ts-ignore
-  const { selectedNftMint, setSelectedNftMint } =
-    useContext(SelectedNftContext);
+  const { selectedNfts, setSelectedNfts } = useContext(SelectedNftContext);
 
-  function handleSelectNft(mint: PublicKey) {
-    setSelectedNftMint(() => {
-      if (selectedNftMint === undefined) {
-        return mint;
-      } else if (selectedNftMint !== undefined && selectedNftMint !== mint) {
-        return mint;
+  function handleSelectNft(mint: PublicKey, tokenAccount: PublicKey) {
+    console.log(mint.toBase58(), tokenAccount.toBase58());
+    setSelectedNfts(() => {
+      if (selectedNfts === undefined) {
+        console.log(
+          "🚀 ~ file: NftItem.tsx:23 ~ setSelectedNfts ~ return [{ nftMint: mint, nftTokenAccount: tokenAccount }];",
+          [{ nftMint: mint, nftTokenAccount: tokenAccount }]
+        );
+        return [{ nftMint: mint, nftTokenAccount: tokenAccount }];
+      } else if (selectedNfts !== undefined && selectedNfts !== mint) {
+        return [{ nftMint: mint, nftTokenAccount: tokenAccount }];
       } else {
         return undefined;
       }
@@ -41,9 +46,9 @@ const NftItem = ({ mint, name, image }: NftItem) => {
 
   return (
     <div
-      onClick={() => handleSelectNft(mint)}
+      onClick={() => handleSelectNft(mint, tokenAccount)}
       className={`bg-nftItemBackground grid justify-center p-2 rounded-xl mr-12 mt-12 shadow-xl hover:shadow-2xl transition cursor-pointer ${
-        selectedNftMint === mint ? "outline outline-white outline-2" : ""
+        selectedNfts === mint ? "outline outline-white outline-2" : ""
       }`}
     >
       <div className="flex justify-center">

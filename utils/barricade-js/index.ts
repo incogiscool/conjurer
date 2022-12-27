@@ -12,7 +12,7 @@ import {
   getOrCreateAssociatedTokenAccount,
 } from "@solana/spl-token";
 import { createFreezeDelegatedAccountInstruction } from "@metaplex-foundation/mpl-token-metadata";
-import { NFTDataType } from "./types";
+import { NFTDataType, LockMultipleNftsType } from "./types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { barricadeFeeWallet, lockNFTFee } from "./constants";
 
@@ -27,7 +27,7 @@ export class Barricade {
     readonly feeWallet = barricadeFeeWallet
   ) {}
 
-  public async lockNFT(nftMint: PublicKey) {
+  public async lockNFT(nftMint: PublicKey, nftTokenAcc: PublicKey) {
     if (!nftMint) throw new Error("nftMint argument Empty!");
     //fetch delegate and see if corresponds with user
 
@@ -36,13 +36,13 @@ export class Barricade {
     const edition = nft.edition.address;
     const address = nft.address;
 
-    const acc = await this.connection.getTokenAccountsByOwner(
-      //@ts-ignore
-      this.publicKey,
-      { mint: nftMint }
-    );
+    // const acc = await this.connection.getTokenAccountsByOwner(
+    //   //@ts-ignore
+    //   this.publicKey,
+    //   { mint: nftMint }
+    // );
 
-    const nftTokenAcc = acc.value[0].pubkey;
+    // const nftTokenAcc = acc.value[0].pubkey;
 
     // const nftTokenAcc = await getAssociatedTokenAddress(
     //   nftMint,
@@ -50,13 +50,23 @@ export class Barricade {
     //   this.publicKey
     // );
 
-    await this.metaplex.tokens().approveDelegateAuthority({
-      mintAddress: nftMint,
-      //@ts-ignore
-      delegateAuthority: this.publicKey,
-    });
+    // await this.metaplex.tokens().approveDelegateAuthority({
+    //   mintAddress: nftMint,
+    //   //@ts-ignore
+    //   delegateAuthority: this.publicKey,
+    // });
 
-    console.log("Approved Delegation.");
+    const delegateInstruction = this.metaplex
+      .tokens()
+      .builders()
+      .approveDelegateAuthority({
+        mintAddress: nftMint,
+        //@ts-ignore
+        delegateAuthority: this.publicKey,
+      })
+      .getInstructions()[0];
+
+    // console.log("Approved Delegation.");
 
     const fee = SystemProgram.transfer({
       //@ts-ignore
@@ -72,14 +82,101 @@ export class Barricade {
       edition,
       tokenAccount: nftTokenAcc,
     });
+    console.log(
+      "🚀 ~ file: index.ts:86 ~ Barricade ~ lockNFT ~ edition",
+      edition
+    );
 
     //sending the transaction
 
-    const transaction = new Transaction().add(lockTransaction, fee);
+    const transaction = new Transaction().add(
+      delegateInstruction,
+      lockTransaction,
+      fee
+    );
     let { blockhash } = await this.connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
     //@ts-ignore
     transaction.feePayer = this.publicKey;
+
+    //@ts-ignore
+    const signedTransaction = await this.wallet.signTransaction(transaction);
+    const transactionAddress = await this.connection.sendRawTransaction(
+      signedTransaction.serialize()
+    );
+
+    const trasnactionConfirm = await this.connection.confirmTransaction(
+      transactionAddress,
+      "finalized"
+    );
+    // console.log(trasnactionConfirm);
+
+    return transactionAddress;
+  }
+
+  public async lockMultipleNFTs(input: LockMultipleNftsType[]) {
+    if (!input) throw new Error("input argument Empty!");
+    console.log("input:", input);
+
+    const transaction = new Transaction();
+
+    const fee = SystemProgram.transfer({
+      //@ts-ignore
+      fromPubkey: this.publicKey,
+      toPubkey: this.feeWallet,
+      lamports: LAMPORTS_PER_SOL * lockNFTFee,
+    });
+
+    await Promise.all(
+      input.map(async (nft) => {
+        console.log("nft", nft);
+        const nftFetch = await this.metaplex
+          .nfts()
+          .findByMint({ mintAddress: nft.nftMint });
+        //@ts-ignore
+        const edition = nftFetch.edition.address;
+        const address = nftFetch.address;
+        console.log(
+          "🚀 ~ file: index.ts:134 ~ Barricade ~ input.map ~ edition",
+          edition
+        );
+        console.log(
+          "🚀 ~ file: index.ts:135 ~ Barricade ~ input.map ~ address = nftFetch.address",
+          address
+        );
+
+        const delegateInstruction = this.metaplex
+          .tokens()
+          .builders()
+          .approveDelegateAuthority({
+            mintAddress: nft.nftMint,
+            //@ts-ignore
+            delegateAuthority: this.publicKey,
+          })
+          .getInstructions()[0];
+
+        console.log("delegate tx created");
+
+        const lockTransaction = createFreezeDelegatedAccountInstruction({
+          //@ts-ignore
+          delegate: this.publicKey,
+          mint: address,
+          edition,
+          tokenAccount: nft.nftTokenAcc,
+        });
+
+        transaction.add(delegateInstruction, lockTransaction, fee);
+      })
+    );
+
+    console.log("lock tx created");
+
+    let { blockhash } = await this.connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
+    //@ts-ignore
+    transaction.feePayer = this.publicKey;
+
+    console.log(transaction);
 
     //@ts-ignore
     const signedTransaction = await this.wallet.signTransaction(transaction);

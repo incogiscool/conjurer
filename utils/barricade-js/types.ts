@@ -8,4 +8,9 @@ export type NFTDataType = {
   tokenAcc: PublicKey;
 };
 
+export type LockMultipleNftsType = {
+  nftMint: PublicKey;
+  nftTokenAcc: PublicKey;
+};
+
 export type ActiveTabTypes = "profile" | "locked" | "unlocked";

@@ -100,7 +100,7 @@ const Barricade = () => {
               </div>
             </div>
           </section>
-          <section className="m-16" id="faq">
+          <section className="m-16 mb-28" id="faq">
             <h1 className="text-6xl font-medium text-main text-center">FAQ</h1>
             <main className="m-6 justify-center">
               <AccordionComponent

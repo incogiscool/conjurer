@@ -50,13 +50,23 @@ export class Barricade {
     //   this.publicKey
     // );
 
-    await this.metaplex.tokens().approveDelegateAuthority({
-      mintAddress: nftMint,
-      //@ts-ignore
-      delegateAuthority: this.publicKey,
-    });
+    // await this.metaplex.tokens().approveDelegateAuthority({
+    //   mintAddress: nftMint,
+    //   //@ts-ignore
+    //   delegateAuthority: this.publicKey,
+    // });
 
-    console.log("Approved Delegation.");
+    // console.log("Approved Delegation.");
+
+    const delegateInstruction = this.metaplex
+      .tokens()
+      .builders()
+      .approveDelegateAuthority({
+        mintAddress: nftMint,
+        //@ts-ignore
+        delegateAuthority: this.publicKey,
+      })
+      .getInstructions()[0];
 
     const fee = SystemProgram.transfer({
       //@ts-ignore
@@ -75,7 +85,11 @@ export class Barricade {
 
     //sending the transaction
 
-    const transaction = new Transaction().add(lockTransaction, fee);
+    const transaction = new Transaction().add(
+      delegateInstruction,
+      lockTransaction,
+      fee
+    );
     let { blockhash } = await this.connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
     //@ts-ignore

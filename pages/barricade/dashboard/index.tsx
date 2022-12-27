@@ -111,7 +111,7 @@ const Dashboard = () => {
 
       if (activeTabState !== "unlocked") return;
 
-      setInfo("Locking NFT ( Accept both transactions).");
+      setInfo("Locking NFT, please accept transaction.");
 
       const res = await barricade.lockNFT(selectedNftMint);
       console.log(res);
@@ -135,7 +135,7 @@ const Dashboard = () => {
 
       if (activeTabState !== "locked") return;
 
-      setInfo("Unlocking NFT (Accept Transaction).");
+      setInfo("Unlocking NFT, please accept transaction.");
 
       const res = await barricade.unlockNFT(lockedNfts[0].mint);
       console.log(res);

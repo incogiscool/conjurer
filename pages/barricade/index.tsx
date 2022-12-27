@@ -99,22 +99,22 @@ const Barricade = () => {
               <AccordionComponent
                 header="What exactly is Barricade?"
                 text="Barricade is a Conjurer-powered security tool. You can use Barricade to secure any of your Token or NFTs while maintaining the complete ownership of your assets as they're stored in your default wallet."
-                className="text-white bg-buttonBackgroundAlt/50"
+                // className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="Why would I use Barricade?"
                 text="Barricade is primarily a digital ledger that is more secure than your traditional physical ledger, once your NFT is locked, even you will not be able to move it unless you unlock it through barricade. This secures all your assets and prevents them from being drained by malicious links, fake mint sites, exploitive extensions or any unauthorized access."
-                className="text-white bg-buttonBackgroundAlt/50"
+                // className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="How much do you charge?"
                 text="There is a very minimal fee against per NFT you lock with the Barricade vault, each time you lock your NFT you will only be charged once."
-                className="text-white bg-buttonBackgroundAlt/50"
+                // className="text-white bg-buttonBackgroundAlt/50"
               />
               <AccordionComponent
                 header="What does Barricade mean to Conjurer?"
                 text="One of the many tools created by Conjurer is Barricade. Conjurer is a group of builders that specialize in developing tools, addressing and resolving difficulties in the NFT space, and working on building additional revenue for holders."
-                className="text-white bg-buttonBackgroundAlt/50"
+                // className="text-white bg-buttonBackgroundAlt/50"
               />
             </main>
           </section>

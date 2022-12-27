@@ -88,7 +88,8 @@ export class Barricade {
     );
 
     const trasnactionConfirm = await this.connection.confirmTransaction(
-      transactionAddress
+      transactionAddress,
+      "finalized"
     );
     // console.log(trasnactionConfirm);
 
@@ -98,12 +99,15 @@ export class Barricade {
   public async unlockNFT(nftMint: PublicKey) {
     //fetch delegate and see if corresponds with user
 
-    const transaction = await this.metaplex.nfts().thawDelegatedNft({
-      mintAddress: nftMint,
-      //@ts-ignore
+    const transaction = await this.metaplex.nfts().thawDelegatedNft(
+      {
+        mintAddress: nftMint,
+        //@ts-ignore
 
-      delegateAuthority: this.wallet,
-    });
+        delegateAuthority: this.wallet,
+      },
+      { commitment: "finalized" }
+    );
 
     return transaction.response.signature;
   }

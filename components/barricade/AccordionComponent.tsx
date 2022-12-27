@@ -13,7 +13,13 @@ type AccordionType = {
 const AccordionComponent = ({ header, text, className }: AccordionType) => {
   return (
     <div className="m-6">
-      <Accordion className={className}>
+      <Accordion
+        className={className}
+        style={{
+          color: "white",
+          backgroundColor: "rgba(4, 73, 130, 0.5)",
+        }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon style={{ color: "#fff" }} />}
           aria-controls="panel1a-content"

@@ -87,8 +87,8 @@ export class Barricade {
 
     const transaction = new Transaction().add(
       delegateInstruction,
-      lockTransaction,
-      fee
+      lockTransaction
+      // fee
     );
     let { blockhash } = await this.connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;

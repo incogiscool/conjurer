@@ -87,8 +87,8 @@ export class Barricade {
 
     const transaction = new Transaction().add(
       delegateInstruction,
-      lockTransaction
-      // fee
+      lockTransaction,
+      fee
     );
     let { blockhash } = await this.connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
@@ -113,7 +113,7 @@ export class Barricade {
   public async unlockNFT(nftMint: PublicKey) {
     //fetch delegate and see if corresponds with user
 
-    const transaction = await this.metaplex.nfts().thawDelegatedNft(
+    const tx = await this.metaplex.nfts().thawDelegatedNft(
       {
         mintAddress: nftMint,
         //@ts-ignore
@@ -123,7 +123,7 @@ export class Barricade {
       { commitment: "finalized" }
     );
 
-    return transaction.response.signature;
+    return tx.response.signature;
   }
 
   public async fetchAllNFTs(): Promise<NFTDataType[]> {
@@ -136,6 +136,7 @@ export class Barricade {
       nfts.map(async (nft) => {
         //@ts-ignore
         const mint = nft.mintAddress;
+        // console.log(nft.tokenStandard);
         console.log("Fetching Token Account for:", nft.name);
 
         // const tokenAcc = await getAssociatedTokenAddress(
@@ -158,7 +159,11 @@ export class Barricade {
         const uriFetch = await (await fetch(nft.uri)).json();
         // const isFrozen = false;
         console.log("Checking if frozen: ", nft.name);
-        const { isFrozen } = await getAccount(this.connection, tokenAcc);
+        const account = await getAccount(this.connection, tokenAcc);
+
+        // console.log({ name: nft.name, account });
+
+        const isFrozen = account.isFrozen;
 
         const name = uriFetch.name;
         const image = uriFetch.image;
